@@ -9,41 +9,59 @@ document.getElementById('name-submit').addEventListener('click', (e) => {
 
 });
 
-//grab age data
+//grab age data https://api.agify.io
 async function getAge(nameInput) {
     let data = await fetch(`https://api.agify.io?name=${nameInput}`);
     let result = await data.json();
     let age = result.age;
     document.getElementById('age-returned').innerText = age;
-    document.getElementById('main-text').classList.remove('hidden')
+    document.getElementById('main-text').classList.remove('hidden');
+    document.getElementById('pie-desc').classList.remove('hidden')
 }
 
-//grab nationalize data
+//grab nationalize data https://api.nationalize.io
 async function getNationalize(nameInput) {
     let data = await fetch(`https://api.nationalize.io?name=${nameInput}`);
     let countryResults = await data.json();
-    console.log(countryResults);
 
     //grab country id for labels
     let country_1 = countryResults.country[0].country_id;
     let country_2 = countryResults.country[1].country_id;
     let country_3 = countryResults.country[2].country_id;
 
-    //grab country probability data
-    let countryData_1 = countryResults.country[0].probability;
-    let countryData_2 = countryResults.country[1].probability;
-    let countryData_3 = countryResults.country[2].probability;
+    //grab country probability ISO code
+    let countryData_1 = Math.round(countryResults.country[0].probability * 100);
+    let countryData_2 = Math.round(countryResults.country[1].probability * 100);
+    let countryData_3 = Math.round(countryResults.country[2].probability * 100);
 
-    console.log(country_1, countryData_1);
+    let countryDataTotal = countryData_1 + countryData_2 + countryData_3;
 
-    var ctx = document.getElementById('pie-chart-canvas');
+    let chartData_1 = ((100 / countryDataTotal) * countryData_1).toFixed(0);
+    let chartData_2 = ((100 / countryDataTotal) * countryData_2).toFixed(0);
+    let chartData_3 = ((100 / countryDataTotal) * countryData_3).toFixed(0);
 
-    var displayData = {
-        labels: [country_1, country_2, country_3],
+    //grab full country name probability based on country code https://restcountries.eu/
+    let countryFullName_1 = await fetch(`https://restcountries.eu/rest/v2/alpha/${country_1}`);
+    let countryFullNameResult_1 = await countryFullName_1.json();
+    let countryFullName_2 = await fetch(`https://restcountries.eu/rest/v2/alpha/${country_2}`);
+    let countryFullNameResult_2 = await countryFullName_2.json();
+    let countryFullName_3 = await fetch(`https://restcountries.eu/rest/v2/alpha/${country_3}`);
+    let countryFullNameResult_3 = await countryFullName_3.json();
+
+    //grab full name from fetched full country name data
+    let countryLabel_1 = countryFullNameResult_1.name;
+    let countryLabel_2 = countryFullNameResult_2.name;
+    let countryLabel_3 = countryFullNameResult_3.name;
+
+    //chart.js config & display
+    let displayId = document.getElementById('pie-chart-canvas');
+
+    let displayData = {
+        labels: [countryLabel_1, countryLabel_2, countryLabel_3],
         datasets: [
             {
                 label: "label",
-                data: [countryData_1, countryData_2, countryData_3],
+                data: [chartData_1, chartData_2, chartData_3],
                 backgroundColor: [
                     "#9b59b6",
                     "#1abc9c",
@@ -53,13 +71,19 @@ async function getNationalize(nameInput) {
         ]
     };
 
-    var chart = new Chart(ctx, {
+    let chart = new Chart(displayId, {
         type: "pie",
         data: displayData,
-        options: {}
+        options: {
+            tooltips: {
+                callbacks: {
+                    label: function(tooltipItems, data) {
+                        return data.labels[tooltipItems.index] + " : " +
+                            data.datasets[tooltipItems.datasetIndex].data[tooltipItems.index] + ' %';
+                    }
+                }
+            }
+        }
     });
 
 }
-
-
-
