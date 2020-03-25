@@ -1,10 +1,10 @@
 //grab input and store in var
 document.getElementById('name-submit').addEventListener('click', (e) => {
-    e.preventDefault()
+    e.preventDefault();
     let name;
     name = document.getElementById('name').value;
-    getAge(name)
-    getNationalize(name)
+    getAge(name);
+    getNationalize(name);
     document.getElementById('display-name').innerText = name;
 
 });
