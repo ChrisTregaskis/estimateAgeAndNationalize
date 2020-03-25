@@ -34,8 +34,8 @@ async function getNationalize(nameInput) {
     let countryData_2 = Math.round(countryResults.country[1].probability * 100);
     let countryData_3 = Math.round(countryResults.country[2].probability * 100);
 
+    //generate pie chart graph data inputs
     let countryDataTotal = countryData_1 + countryData_2 + countryData_3;
-
     let chartData_1 = ((100 / countryDataTotal) * countryData_1).toFixed(0);
     let chartData_2 = ((100 / countryDataTotal) * countryData_2).toFixed(0);
     let chartData_3 = ((100 / countryDataTotal) * countryData_3).toFixed(0);
@@ -53,7 +53,7 @@ async function getNationalize(nameInput) {
     let countryLabel_2 = countryFullNameResult_2.name;
     let countryLabel_3 = countryFullNameResult_3.name;
 
-    //chart.js config & display
+    //display chart using chart.js config & displayId
     let displayId = document.getElementById('pie-chart-canvas');
 
     let displayData = {
