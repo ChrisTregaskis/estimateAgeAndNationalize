@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Age And Nationalize APIn</title>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.bundle.js"></script>
+    <script defer type="text/javascript" src="index.js"></script>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+</head>
+<body>
+    <form>
+        <input type="text"  id="name" placeholder="Please enter your name"/>
+        <input type="submit" id="name-submit"/>
+    </form>
+    <h1 id="main-text" class="hidden"><span id="display-name"></span>'s estimated age is <span id="age-returned"></span></h1>
+    <div class="chart-container">
+        <div class="pie-chart-container">
+            <canvas id="pie-chart-canvas"></canvas>
+        </div>
+    </div>
+</body>
+</html>

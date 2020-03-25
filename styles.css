@@ -1,0 +1,22 @@
+* { box-sizing: border-box }
+
+h1 {
+    font-size: 60px;
+    font-weight: lighter;
+
+}
+
+.hidden {
+    display: none;
+}
+
+.chart-container {
+    width: 80%;
+    height: 880px;
+    margin: 0 auto;
+}
+
+.pie-chart-container {
+    width: 760px;
+    height: 760px;
+}
