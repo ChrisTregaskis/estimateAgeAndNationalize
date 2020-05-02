@@ -18,8 +18,7 @@ document.getElementById('name-submit').addEventListener('click', (e) => {
 async function getAge(nameInput) {
     let data = await fetch(`https://api.agify.io?name=${nameInput}`);
     let result = await data.json();
-    let age = result.age;
-    document.getElementById('age-returned').innerText = age;
+    document.getElementById('age-returned').innerText = result.age;
     document.getElementById('main-text').classList.remove('hidden');
     document.getElementById('pie-desc').classList.remove('hidden')
 }
@@ -88,7 +87,7 @@ async function getNationalize(nameInput) {
                 }
             }
         }
-    }
+    };
 
     //clear current chart and replace with new data
     chart.destroy();
