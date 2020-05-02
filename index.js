@@ -1,3 +1,8 @@
+//initialize chart structure
+let displayId = document.getElementById('pie-chart-canvas').getContext('2d');
+let configOptions = {};
+let chart = new Chart(displayId, configOptions);
+
 //grab input and store in var
 document.getElementById('name-submit').addEventListener('click', (e) => {
     e.preventDefault();
@@ -53,9 +58,7 @@ async function getNationalize(nameInput) {
     let countryLabel_2 = countryFullNameResult_2.name;
     let countryLabel_3 = countryFullNameResult_3.name;
 
-    //display chart using chart.js config & displayId
-    let displayId = document.getElementById('pie-chart-canvas');
-
+    //set chart data with results
     let displayData = {
         labels: [countryLabel_1, countryLabel_2, countryLabel_3],
         datasets: [
@@ -71,7 +74,8 @@ async function getNationalize(nameInput) {
         ]
     };
 
-    let chart = new Chart(displayId, {
+    //populate config options
+    let configOptions = {
         type: "pie",
         data: displayData,
         options: {
@@ -84,6 +88,9 @@ async function getNationalize(nameInput) {
                 }
             }
         }
-    });
+    }
 
+    //clear current chart and replace with new data
+    chart.destroy();
+    chart = new Chart(displayId, configOptions);
 }
